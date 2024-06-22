@@ -81,7 +81,7 @@ const login = async (req, res) => {
         req.userId = user._id
 
         // Devolver respuesta exitosa
-        return res.status(200).json({ status: "success", message: "Acción de login", user, userId: user._id});
+        return res.status(200).json({ status: "success", message: "Acción de login", user});
 
     } catch (error) {
         return res.status(500).json({

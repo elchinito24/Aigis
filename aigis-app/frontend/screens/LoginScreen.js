@@ -1,19 +1,52 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import axios from 'axios';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleLogin = () => {
-    // Lógica de autenticación aquí
-    // Esto es un ejemplo. Debes reemplazar la lógica de autenticación
-    const userRole = email.includes('admin') ? 'admin' : 'user'; // Ejemplo simple basado en el email
+  const handleLogin = async () => {
+    try {
+      // URL de tu API de login
+      const url = 'http://192.168.1.24:3000/usuario/login'; // Cambia esto por la IP de tu servidor
 
-    if (userRole === 'admin') {
-      navigation.replace('AdminStack');
-    } else {
-      navigation.replace('UserStack');
+      // Datos de las credenciales de usuario
+      const data = {
+        correo: email,
+        contrasena: password
+      };
+
+      // Hacer la solicitud POST
+      const response = await axios.post(url, data);
+
+      console.log('Respuesta del servidor:', response.data);
+
+      
+      // Manejar la respuesta
+      if (response.status === 200) {
+        Alert.alert('Bienvenido', `${user.nombre}`);
+        console.log('Login exitoso');
+
+        // Verifica el rol del usuario
+        const user = response.data.user;
+        const userRole = user.rol; // Suponiendo que el rol viene en la respuesta
+
+        // Redireccionar basado en el rol del usuario
+        if (userRole === 'administrador') {
+          navigation.navigate('AdminStack');
+        } else if (userRole === 'usuario') {
+          navigation.navigate('UserStack');
+        }
+      } else {
+        console.log('Error en el login');
+        setErrorMessage('Error en el login');
+      }
+    } catch (error) {
+      // Manejar errores
+      console.error('Error al realizar el login:', error);
+      setErrorMessage(error.response?.data?.message || 'Error al realizar el login');
     }
   };
 
@@ -40,16 +73,17 @@ const LoginScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-      <TouchableOpacity 
-        style={styles.signupRedirect} 
+      <TouchableOpacity
+        style={styles.signupRedirect}
         onPress={() => navigation.navigate('Signup')}>
         <Text style={styles.signupText}>Don't have an account? Sign Up</Text>
       </TouchableOpacity>
-      <TouchableOpacity 
-        style={styles.backToWelcome} 
+      <TouchableOpacity
+        style={styles.backToWelcome}
         onPress={() => navigation.navigate('Welcome')}>
         <Text style={styles.backToWelcomeText}>Back to Welcome</Text>
       </TouchableOpacity>
+      {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
     </View>
   );
 };
@@ -103,6 +137,10 @@ const styles = StyleSheet.create({
   backToWelcomeText: {
     color: '#3498db',
     fontSize: 16,
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 10,
   },
 });
 
