@@ -26,7 +26,7 @@ const LoginScreen = ({ navigation }) => {
       
       // Manejar la respuesta
       if (response.status === 200) {
-        Alert.alert('Bienvenido', `${user.nombre}`);
+        //Alert.alert('Bienvenido', `${user.nombre}`);
         console.log('Login exitoso');
 
         // Verifica el rol del usuario
