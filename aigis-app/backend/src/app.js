@@ -22,15 +22,6 @@ const UsuarioRoutes = require('./routes/usuario.js')
 
 app.use('/usuario', UsuarioRoutes)
 
-// Rutas de prueba
-app.get('/ruta-prueba', (req,res) => {
-    res.status(200).json({
-        id: 1,
-        name: 'Bicho',
-        age: 22
-    })
-})
-
 // Poner servidor a escuchar paticiones http
 app.listen(port,() => {
     console.log(`Servidor iniciando en el ${port}`)
