@@ -1,48 +1,81 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import axios from 'axios';
+import IP from '../IP';
 
 const SignupScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [nombre, setNombre] = useState('')
+  const [correo, setCorreo] = useState('');
+  const [contrasena, setContrasena] = useState('');
+  const [direccion, setDireccion] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSignup = async () => {
 
-    
-    // Simulate a registration process
-    console.log('User registered with email:', email);
+    const data = {nombre,correo,contrasena,direccion,telefono, rol: 'usuario'}
 
-    // Navigate back to the Welcome screen
-    navigation.navigate('Welcome');
+    try {
+      const url = `http://${IP}:3000/usuario/signup`
+      const response = await axios.post(url, data)
+      if(response.status == 200){
+        Alert.alert('Signup', 'Registro completado')
+        navigation.navigate('Welcome');
+      }
+    } catch (error) {
+      console.log('Error en try catch: ',error)
+      setErrorMessage(error.response?.data?.message || "Algo salio mal con tu registro")
+    }
+
+    console.log(data)
+    
+
   }  
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign Up</Text>
+      <TextInput 
+        style={styles.input}
+        placeholder='Name'
+        placeholderTextColor="#aaa"
+        autoCapitalize='none'
+        value={nombre}
+        onChangeText={setNombre}
+      />
+      <TextInput 
+        style={styles.input}
+        placeholder='Address'
+        placeholderTextColor="#aaa"
+        autoCapitalize='none'
+        value={direccion}
+        onChangeText={setDireccion}
+      />
+      <TextInput 
+        style={styles.input}
+        placeholder='Phone Number'
+        placeholderTextColor="#aaa"
+        autoCapitalize='none'
+        keyboardType='numeric'
+        value={telefono}
+        onChangeText={setTelefono}
+      />
       <TextInput
         style={styles.input}
         placeholder="Email"
         placeholderTextColor="#aaa"
         keyboardType="email-address"
         autoCapitalize="none"
-        value={email}
-        onChangeText={setEmail}
+        value={correo}
+        onChangeText={setCorreo}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
         placeholderTextColor="#aaa"
         secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm Password"
-        placeholderTextColor="#aaa"
-        secureTextEntry
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
+        value={contrasena}
+        onChangeText={setContrasena}
       />
       <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
         <Text style={styles.buttonText}>Sign Up</Text>
@@ -57,6 +90,7 @@ const SignupScreen = ({ navigation }) => {
         onPress={() => navigation.navigate('Welcome')}>
         <Text style={styles.backToWelcomeText}>Back to Welcome</Text>
       </TouchableOpacity>
+      {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
     </View>
   );
 };
@@ -110,6 +144,10 @@ const styles = StyleSheet.create({
   backToWelcomeText: {
     color: '#3498db',
     fontSize: 16,
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 10,
   },
 });
 
