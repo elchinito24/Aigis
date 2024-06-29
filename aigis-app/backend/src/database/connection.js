@@ -4,7 +4,7 @@ config()
 
 const connection = async() => {
     try {
-        await mongoose.connect(process.env.URL)
+        await mongoose.connect('mongodb+srv://aigis:passwordAIGIS@clusteraigis.2tqlsap.mongodb.net/aigis')
 
         console.log('Conectado correctamente a AIGIS BD')
     } catch (error) {

@@ -8,7 +8,7 @@ connection()
 
 // Crear servidor node
 const app = express()
-const port = process.env.PORT || 3000
+const port = 3000
 
 // Configurar cors
 app.use(cors())

@@ -6,18 +6,15 @@ const SignupScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleSignup = () => {
-    if (password !== confirmPassword) {
-      alert("Passwords don't match");
-      return;
-    }
+  const handleSignup = async () => {
+
     
     // Simulate a registration process
     console.log('User registered with email:', email);
 
     // Navigate back to the Welcome screen
     navigation.navigate('Welcome');
-  };
+  }  
 
   return (
     <View style={styles.container}>

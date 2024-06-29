@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
+import IP from '../IP';
+
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -10,7 +12,11 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
     try {
       // URL de tu API de login
+<<<<<<< HEAD
       const url = 'http://172.18.6.59:3000/usuario/login'; // Cambia esto por la IP de tu servidor
+=======
+      const url = `http://${IP}:3000/usuario/login`; // Cambia esto por la IP de tu servidor
+>>>>>>> origin/main
 
       // Datos de las credenciales de usuario
       const data = {
@@ -26,12 +32,12 @@ const LoginScreen = ({ navigation }) => {
       
       // Manejar la respuesta
       if (response.status === 200) {
-        Alert.alert('Bienvenido', `${user.nombre}`);
         console.log('Login exitoso');
-
+        
         // Verifica el rol del usuario
         const user = response.data.user;
         const userRole = user.rol; // Suponiendo que el rol viene en la respuesta
+        Alert.alert('Bienvenido', `${user.nombre}`);
 
         // Redireccionar basado en el rol del usuario
         if (userRole === 'administrador') {
