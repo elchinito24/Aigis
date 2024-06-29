@@ -1,17 +1,41 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-
-const sensors = [
-  { id: '1', name: 'Sensor 1', price: '$50' },
-  { id: '2', name: 'Sensor 2', price: '$60' },
-  // Agrega más sensores según sea necesario
-];
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import axios from 'axios';
+import IP from '../../IP.js';
 
 const ViewSensorsScreen = () => {
+  const [data, setData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const fetchData = async () => {
+    const url = `http://${IP}:3000/sensor/`;
+    try {
+      const response = await axios.get(url);
+      console.log(response.data.sensores); // Verifica la estructura de los datos
+      setData(response.data.sensores); // Asegúrate de que response.data es un array
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchData();
+    }, [])
+  );
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchData().then(() => {
+      setRefreshing(false);
+    });
+  };
+
   const renderItem = ({ item }) => (
     <View style={styles.item}>
-      <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.details}>Price: {item.price}</Text>
+      <Text style={styles.name}>{item.tipo}</Text>
+      <Text style={styles.details}>Price: {item.precio}</Text>
     </View>
   );
 
@@ -19,9 +43,12 @@ const ViewSensorsScreen = () => {
     <View style={styles.container}>
       <Text style={styles.title}>View Sensors</Text>
       <FlatList
-        data={sensors}
+        data={data}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item._id}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </View>
   );
