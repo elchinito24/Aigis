@@ -12,11 +12,7 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
     try {
       // URL de tu API de login
-<<<<<<< HEAD
-      const url = 'http://172.18.6.59:3000/usuario/login'; // Cambia esto por la IP de tu servidor
-=======
       const url = `http://${IP}:3000/usuario/login`; // Cambia esto por la IP de tu servidor
->>>>>>> origin/main
 
       // Datos de las credenciales de usuario
       const data = {
