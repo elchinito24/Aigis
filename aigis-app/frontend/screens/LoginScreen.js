@@ -1,6 +1,6 @@
-import axios from 'axios';
 import React, { useState } from 'react';
-import { Alert, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import axios from 'axios';
 import IP from '../IP';
 
 const LoginScreen = ({ navigation }) => {
@@ -10,28 +10,41 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
+      // URL de tu API de login
       const url = `http://${IP}:3000/usuario/login`;
+
+      // Datos de las credenciales de usuario
       const data = {
         correo: email,
         contrasena: password
       };
+      // Hacer la solicitud POST
       const response = await axios.post(url, data);
+      console.log('Respuesta del servidor:', response.data);
 
+      // Manejar la respuesta
       if (response.status === 200) {
+        console.log('Login exitoso');
+
+        // Verifica el rol del usuario
         const user = response.data.user;
         const userRole = user.rol;
         Alert.alert('Welcome', `${user.nombre}`);
 
+        // Redireccionar basado en el rol del usuario
         if (userRole === 'administrador') {
           navigation.navigate('AdminStack');
         } else if (userRole === 'usuario') {
           navigation.navigate('UserStack');
         }
-      } else {
-        setErrorMessage('Login error');
+      }  else {
+        console.log('Error en el login');
+        setErrorMessage('Error en el login');
       }
     } catch (error) {
-      setErrorMessage(error.response?.data?.message || 'Login error');
+      // Manejar errores
+      console.error('Error al realizar el login:', error);
+      setErrorMessage(error.response?.data?.message || 'Error al realizar el login');
     }
   };
 
@@ -56,7 +69,7 @@ const LoginScreen = ({ navigation }) => {
           value={password}
           onChangeText={setPassword}
         />
-        <TouchableOpacity style={styles.loginButton}>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <View style={styles.linksContainer}>

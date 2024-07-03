@@ -4,63 +4,76 @@ import axios from 'axios';
 import IP from '../IP';
 
 const SignupScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [nombre, setNombre] = useState('')
+  const [correo, setCorreo] = useState('');
+  const [contrasena, setContrasena] = useState('');
+  const [direccion, setDireccion] = useState('');
+  const [telefono, setTelefono] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-
   const handleSignup = async () => {
+
+    const data = {nombre,correo,contrasena,direccion,telefono, rol: 'usuario'}
+
     try {
-      if (password !== confirmPassword) {
-        setErrorMessage("Passwords don't match");
-        return;
-      }
-    
-
-      const url = `http://${IP}:3000/usuario/signup`;
-      const data = {
-        correo: email,
-        contrasena: password
-      };
-      const response = await axios.post(url, data);
-    
-    // Simulate a registration process
-    console.log('User registered with email:', email);
-
-      if (response.status === 200) {
-        Alert.alert('Registration Successful', 'You can now login with your credentials.');
-        navigation.navigate('Login');
-      } else {
-        setErrorMessage('Signup error');
+      const url = `http://${IP}:3000/usuario/signup`
+      const response = await axios.post(url, data)
+      if(response.status == 200){
+        Alert.alert('Signup', 'Registro completado')
+        navigation.navigate('Welcome');
       }
     } catch (error) {
-      setErrorMessage(error.response?.data?.message || 'Signup error');
+      console.log('Error en try catch: ',error)
+      setErrorMessage(error.response?.data?.message || "Algo salio mal con tu registro")
     }
-  };
-    // Navigate back to the Welcome screen
-    navigation.navigate('Welcome');
-  }  
 
+    console.log(data)
+
+  }  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign Up</Text>
+      <Text style={styles.nameField}>Name</Text>
+      <TextInput 
+        style={styles.input}
+        placeholderTextColor="#FFF"
+        autoCapitalize='none'
+        value={nombre}
+        onChangeText={setNombre}
+      />
+      <Text style={styles.nameField}>Address</Text>
+      <TextInput 
+        style={styles.input}
+        placeholderTextColor="#FFF"
+        autoCapitalize='none'
+        value={direccion}
+        onChangeText={setDireccion}
+      />
+      <Text style={styles.nameField}>Phone Number</Text>
+      <TextInput 
+        style={styles.input}
+        placeholderTextColor="#FFF"
+        autoCapitalize='none'
+        keyboardType='numeric'
+        value={telefono}
+        onChangeText={setTelefono}
+      />
       <Text style={styles.nameField}>Email</Text>
       <TextInput
         style={styles.input}
-        placeholderTextColor="#aaa"
+        placeholderTextColor="#FFF"
         keyboardType="email-address"
         autoCapitalize="none"
-        value={email}
-        onChangeText={setEmail}
+        value={correo}
+        onChangeText={setCorreo}
       />
-      <Text style={styles.nameField}>Create a password</Text>
+      <Text style={styles.nameField}>Create Password</Text>
       <TextInput
         style={styles.input}
-        placeholderTextColor="#aaa"
+        placeholderTextColor="#FFF"
         secureTextEntry
-        value={password}
-        onChangeText={setPassword}
+        value={contrasena}
+        onChangeText={setContrasena}
       />
       <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
         <Text style={styles.buttonText}>Sign Up</Text>
@@ -75,8 +88,10 @@ const SignupScreen = ({ navigation }) => {
         onPress={() => navigation.navigate('VSAT App')}>
         <Text style={styles.backToWelcomeText}>Back to Welcome</Text>
       </TouchableOpacity>
+      {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
     </View>
   );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -100,7 +115,7 @@ const styles = StyleSheet.create({
   input: {
     width: '100%',
     padding: 15,
-    color: '#FFF', // Color del texto dentro del input
+    color: '#FFF',
     borderColor: '#ccc',
     borderColor: '#E53935',
     borderWidth: 2,

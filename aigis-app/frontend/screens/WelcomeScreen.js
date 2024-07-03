@@ -71,12 +71,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    marginTop: 20, // Ajuste del margen superior para subir los botones
+    marginTop: 20, 
   },
   button: {
     backgroundColor: '#E53935',
     borderRadius: 5,
-    width: '45%', // Ancho de los botones
+    width: '45%', 
     alignItems: 'center',
     paddingVertical: 15,
   },
