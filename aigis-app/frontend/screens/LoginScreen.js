@@ -35,32 +35,28 @@ const LoginScreen = ({ navigation }) => {
     }
   };
 
+
   return (
-    <ImageBackground
-      source={require('../assets/system.png')}
-      style={styles.background}
-      resizeMode="cover"
-    >
       <View style={styles.overlay}>
         <Text style={styles.title}>Login</Text>
+        <Text style={styles.nameField}>Email</Text>
         <TextInput
           style={styles.input}
-          placeholder="Email"
           placeholderTextColor="#aaa"
           keyboardType="email-address"
           autoCapitalize="none"
           value={email}
           onChangeText={setEmail}
         />
+        <Text style={styles.nameField}>Password</Text>
         <TextInput
           style={styles.input}
-          placeholder="Password"
           placeholderTextColor="#aaa"
           secureTextEntry
           value={password}
           onChangeText={setPassword}
         />
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+        <TouchableOpacity style={styles.loginButton}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <View style={styles.linksContainer}>
@@ -73,7 +69,6 @@ const LoginScreen = ({ navigation }) => {
         </View>
         {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
       </View>
-    </ImageBackground>
   );
 };
 
@@ -82,8 +77,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#000',
-    padding: 20,
+    padding: 20
+  },
+  nameField:{
+    color: '#FFF',
+    left: '3%',
+    alignSelf: 'flex-start',
   },
   overlay: {
     width: '100%',
@@ -91,22 +90,24 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#424242',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#FFF',
     marginBottom: 20,
-    marginTop: '-30%', 
+    
   },
   input: {
     width: '100%',
     padding: 15,
-    borderWidth: 2,
-    borderRadius: 8,
+    color: '#FFF',
     borderColor: '#E53935',
+    borderWidth: 2,
+    borderRadius: 5,
     marginBottom: 20,
-    backgroundColor: '#424242',
+    backgroundColor: '#212121',
   },
   loginButton: {
     backgroundColor: '#E53935',

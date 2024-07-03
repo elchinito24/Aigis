@@ -46,13 +46,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 16, // Añadido padding para centrar mejor el contenido
+    padding: 16,
   },
   content: {
     justifyContent: 'center',
     alignItems: 'center',
     width: '80%',
-    marginTop: '-30%', // Ajuste del margen superior para subir el contenido
+    marginTop: '-30%', 
   },
   image: {
     top: 2,
@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     color: '#FFF',
-    marginBottom: '5%', // Reducido el margen inferior para subir el texto
+    marginBottom: '5%', 
+    fontFamily: 'Roboto',
     textAlign: 'center',
   },
   buttonContainer: {

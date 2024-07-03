@@ -9,12 +9,14 @@ const SignupScreen = ({ navigation }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+
   const handleSignup = async () => {
     try {
       if (password !== confirmPassword) {
         setErrorMessage("Passwords don't match");
         return;
       }
+    
 
       const url = `http://${IP}:3000/usuario/signup`;
       const data = {
@@ -22,6 +24,9 @@ const SignupScreen = ({ navigation }) => {
         contrasena: password
       };
       const response = await axios.post(url, data);
+    
+    // Simulate a registration process
+    console.log('User registered with email:', email);
 
       if (response.status === 200) {
         Alert.alert('Registration Successful', 'You can now login with your credentials.');
@@ -33,85 +38,75 @@ const SignupScreen = ({ navigation }) => {
       setErrorMessage(error.response?.data?.message || 'Signup error');
     }
   };
+    // Navigate back to the Welcome screen
+    navigation.navigate('Welcome');
+  }  
 
   return (
-    <ImageBackground
-      source={require('../assets/system.png')}
-      style={styles.background}
-      resizeMode="cover"
-    >
-      <View style={styles.overlay}>
-        <Text style={styles.title}>Sign Up</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#aaa"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          value={email}
-          onChangeText={setEmail}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#aaa"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Confirm Password"
-          placeholderTextColor="#aaa"
-          secureTextEntry
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-        />
-        {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
-        <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
-          <Text style={styles.buttonText}>Sign Up</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.linkText}>Already have an account? Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('VSAT App')}>
-          <Text style={styles.linkText}>Back to Welcome</Text>
-        </TouchableOpacity>
-      </View>
-    </ImageBackground>
+    <View style={styles.container}>
+      <Text style={styles.title}>Sign Up</Text>
+      <Text style={styles.nameField}>Email</Text>
+      <TextInput
+        style={styles.input}
+        placeholderTextColor="#aaa"
+        keyboardType="email-address"
+        autoCapitalize="none"
+        value={email}
+        onChangeText={setEmail}
+      />
+      <Text style={styles.nameField}>Create a password</Text>
+      <TextInput
+        style={styles.input}
+        placeholderTextColor="#aaa"
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
+      <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
+        <Text style={styles.buttonText}>Sign Up</Text>
+      </TouchableOpacity>
+      <TouchableOpacity 
+        style={styles.loginRedirect} 
+        onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.loginText}>Already have an account? Login</Text>
+      </TouchableOpacity>
+      <TouchableOpacity 
+        style={styles.backToWelcome} 
+        onPress={() => navigation.navigate('VSAT App')}>
+        <Text style={styles.backToWelcomeText}>Back to Welcome</Text>
+      </TouchableOpacity>
+    </View>
   );
-};
 
 const styles = StyleSheet.create({
-  background: {
+  container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#000',
+    backgroundColor: '#424242',
     padding: 20,
   },
-  overlay: {
-    width: '100%',
-    height: '100%',
-    padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+  nameField:{
+    color: '#FFF',
+    left: '3%',
+    alignSelf: 'flex-start',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#FFF',
     marginBottom: 20,
-    marginTop: '-30%', // Adjust as needed for positioning
   },
   input: {
     width: '100%',
     padding: 15,
-    borderWidth: 2,
-    borderRadius: 8,
+    color: '#FFF', // Color del texto dentro del input
+    borderColor: '#ccc',
     borderColor: '#E53935',
+    borderWidth: 2,
+    borderRadius: 5,
     marginBottom: 20,
-    backgroundColor: '#424242',
+    backgroundColor: '#212121',
   },
   signupButton: {
     backgroundColor: '#E53935',
@@ -126,17 +121,19 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
   },
-  link: {
-    marginBottom: 10,
+  loginRedirect: {
+    marginTop: 20,
   },
-  linkText: {
+  loginText: {
     color: '#E53935',
     fontSize: 16,
-    textAlign: 'center',
   },
-  errorText: {
-    color: 'red',
+  backToWelcome: {
     marginTop: 10,
+  },
+  backToWelcomeText: {
+    color: '#E53935',
+    fontSize: 16,
   },
 });
 
