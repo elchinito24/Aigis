@@ -1,91 +1,120 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, Alert } from 'react-native';
+import axios from 'axios';
+import IP from '../IP';
 
 const SignupScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSignup = async () => {
+    try {
+      if (password !== confirmPassword) {
+        setErrorMessage("Passwords don't match");
+        return;
+      }
 
-    
-    // Simulate a registration process
-    console.log('User registered with email:', email);
+      const url = `http://${IP}:3000/usuario/signup`;
+      const data = {
+        correo: email,
+        contrasena: password
+      };
+      const response = await axios.post(url, data);
 
-    // Navigate back to the Welcome screen
-    navigation.navigate('Welcome');
-  }  
+      if (response.status === 200) {
+        Alert.alert('Registration Successful', 'You can now login with your credentials.');
+        navigation.navigate('Login');
+      } else {
+        setErrorMessage('Signup error');
+      }
+    } catch (error) {
+      setErrorMessage(error.response?.data?.message || 'Signup error');
+    }
+  };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor="#aaa"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#aaa"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm Password"
-        placeholderTextColor="#aaa"
-        secureTextEntry
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-      />
-      <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </TouchableOpacity>
-      <TouchableOpacity 
-        style={styles.loginRedirect} 
-        onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.loginText}>Already have an account? Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity 
-        style={styles.backToWelcome} 
-        onPress={() => navigation.navigate('Welcome')}>
-        <Text style={styles.backToWelcomeText}>Back to Welcome</Text>
-      </TouchableOpacity>
-    </View>
+    <ImageBackground
+      source={require('../assets/system.png')}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <View style={styles.overlay}>
+        <Text style={styles.title}>Sign Up</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor="#aaa"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor="#aaa"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Confirm Password"
+          placeholderTextColor="#aaa"
+          secureTextEntry
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+        />
+        {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
+        <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.linkText}>Already have an account? Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('VSAT App')}>
+          <Text style={styles.linkText}>Back to Welcome</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  background: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#000',
     padding: 20,
+  },
+  overlay: {
+    width: '100%',
+    height: '100%',
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#FFF',
     marginBottom: 20,
+    marginTop: '-30%', // Adjust as needed for positioning
   },
   input: {
     width: '100%',
     padding: 15,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
+    borderWidth: 2,
+    borderRadius: 8,
+    borderColor: '#E53935',
     marginBottom: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#424242',
   },
   signupButton: {
-    backgroundColor: '#3498db',
+    backgroundColor: '#E53935',
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 5,
@@ -97,19 +126,17 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
   },
-  loginRedirect: {
-    marginTop: 20,
+  link: {
+    marginBottom: 10,
   },
-  loginText: {
-    color: '#3498db',
+  linkText: {
+    color: '#E53935',
     fontSize: 16,
+    textAlign: 'center',
   },
-  backToWelcome: {
+  errorText: {
+    color: 'red',
     marginTop: 10,
-  },
-  backToWelcomeText: {
-    color: '#3498db',
-    fontSize: 16,
   },
 });
 
