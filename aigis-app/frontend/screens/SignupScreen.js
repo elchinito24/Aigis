@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, Alert } from 'react-native';
 import axios from 'axios';
 import IP from '../IP';
 
@@ -28,51 +28,49 @@ const SignupScreen = ({ navigation }) => {
     }
 
     console.log(data)
-    
 
   }  
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign Up</Text>
+      <Text style={styles.nameField}>Name</Text>
       <TextInput 
         style={styles.input}
-        placeholder='Name'
-        placeholderTextColor="#aaa"
+        placeholderTextColor="#FFF"
         autoCapitalize='none'
         value={nombre}
         onChangeText={setNombre}
       />
+      <Text style={styles.nameField}>Address</Text>
       <TextInput 
         style={styles.input}
-        placeholder='Address'
-        placeholderTextColor="#aaa"
+        placeholderTextColor="#FFF"
         autoCapitalize='none'
         value={direccion}
         onChangeText={setDireccion}
       />
+      <Text style={styles.nameField}>Phone Number</Text>
       <TextInput 
         style={styles.input}
-        placeholder='Phone Number'
-        placeholderTextColor="#aaa"
+        placeholderTextColor="#FFF"
         autoCapitalize='none'
         keyboardType='numeric'
         value={telefono}
         onChangeText={setTelefono}
       />
+      <Text style={styles.nameField}>Email</Text>
       <TextInput
         style={styles.input}
-        placeholder="Email"
-        placeholderTextColor="#aaa"
+        placeholderTextColor="#FFF"
         keyboardType="email-address"
         autoCapitalize="none"
         value={correo}
         onChangeText={setCorreo}
       />
+      <Text style={styles.nameField}>Create Password</Text>
       <TextInput
         style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#aaa"
+        placeholderTextColor="#FFF"
         secureTextEntry
         value={contrasena}
         onChangeText={setContrasena}
@@ -87,7 +85,7 @@ const SignupScreen = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity 
         style={styles.backToWelcome} 
-        onPress={() => navigation.navigate('Welcome')}>
+        onPress={() => navigation.navigate('VSAT App')}>
         <Text style={styles.backToWelcomeText}>Back to Welcome</Text>
       </TouchableOpacity>
       {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
@@ -100,26 +98,33 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#424242',
     padding: 20,
+  },
+  nameField:{
+    color: '#FFF',
+    left: '3%',
+    alignSelf: 'flex-start',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#FFF',
     marginBottom: 20,
   },
   input: {
     width: '100%',
     padding: 15,
+    color: '#FFF',
     borderColor: '#ccc',
-    borderWidth: 1,
+    borderColor: '#E53935',
+    borderWidth: 2,
     borderRadius: 5,
     marginBottom: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#212121',
   },
   signupButton: {
-    backgroundColor: '#3498db',
+    backgroundColor: '#E53935',
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 5,
@@ -135,19 +140,22 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   loginText: {
-    color: '#3498db',
+    color: '#E53935',
     fontSize: 16,
   },
   backToWelcome: {
     marginTop: 10,
   },
   backToWelcomeText: {
-    color: '#3498db',
+    color: '#E53935',
     fontSize: 16,
   },
   errorText: {
-    color: 'red',
+    color: 'white',
+    backgroundColor: 'red',
     marginTop: 10,
+    padding: 4,
+    borderRadius: 4
   },
 });
 
