@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AdminHomeScreen from '../screens/Admin/AdminHomeScreen';
 import ManageSensorsScreen from '../screens/Admin/ManageSensorsScreen';
 import ManageUsersScreen from '../screens/Admin/ManageUsersScreen';
+import AddNewSensorScreen from '../screens/Admin/AddNewSensor';
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,6 +28,7 @@ const AdminDrawer = () => (
 const AdminStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="AdminDrawer" component={AdminDrawer} />
+    <Stack.Screen name="AddNewSensor" component={AddNewSensorScreen} />
   </Stack.Navigator>
 );
 

@@ -19,8 +19,10 @@ app.use(express.urlencoded({extended: true}))
 
 // Cargar conf rutas
 const UsuarioRoutes = require('./routes/usuario.js')
+const SensorRoutes = require('./routes/sensor.js')
 
 app.use('/usuario', UsuarioRoutes)
+app.use('/sensor', SensorRoutes)
 
 // Poner servidor a escuchar paticiones http
 app.listen(port,() => {

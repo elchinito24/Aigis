@@ -150,6 +150,13 @@ const styles = StyleSheet.create({
     color: '#E53935',
     fontSize: 16,
   },
+  errorText: {
+    color: 'white',
+    backgroundColor: 'red',
+    marginTop: 10,
+    padding: 4,
+    borderRadius: 4
+  },
 });
 
 export default SignupScreen;

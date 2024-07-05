@@ -1,18 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
+import IP from '../../IP';
+import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
+import { RefreshControl } from 'react-native-gesture-handler';
 
-const sensors = [
-  { id: '1', name: 'Sensor 1', price: '$50', status: 'Active' },
-  { id: '2', name: 'Sensor 2', price: '$60', status: 'Inactive' },
-  // Agrega más sensores según sea necesario
-];
+const ManageSensorsScreen = ({navigation}) => {
 
-const ManageSensorsScreen = () => {
+  const [data, setData] = useState([])
+  const [refreshing, setRefreshing] = useState(false)
+
+  const fetchData = async () => {
+    const url = `http://${IP}:3000/sensor`
+    try {
+      const response = await axios.get(url)
+      console.log(response.data.sensores)
+      setData(response.data.sensores)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchData()
+    },[])
+  )
+
+  const onRefresh = () => {
+    setRefreshing(true)
+    fetchData().then(() => {
+      setRefreshing(false)
+    })
+  }
+
   const renderItem = ({ item }) => (
     <View style={styles.item}>
-      <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.details}>Price: {item.price}</Text>
-      <Text style={styles.details}>Status: {item.status}</Text>
+      <Text style={styles.name}>{item.tipo}</Text>
+      <Text style={styles.details}>Precio: {item.precio}</Text>
+      <Text style={styles.details}>Estado: {item.estado}</Text>
       <Button title="Edit" onPress={() => {}} />
     </View>
   );
@@ -20,10 +46,14 @@ const ManageSensorsScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Manage Sensors</Text>
+      <Button title='Add New Sensor' color="#0d9488" onPress={() => {navigation.navigate('AddNewSensor')}}/>
       <FlatList
-        data={sensors}
+        data={data}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item._id}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </View>
   );

@@ -31,9 +31,9 @@ const signup = async (req, res) => {
         });
 
         if (usuarios.length >= 1) {
-            return res.status(200).json({
+            return res.status(500).json({
                 status: "success",
-                message: "El usuario ya existe"
+                message: "El correo ya esta en uso"
             });
         }
 

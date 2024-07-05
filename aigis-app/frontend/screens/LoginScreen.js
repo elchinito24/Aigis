@@ -43,7 +43,7 @@ const LoginScreen = ({ navigation }) => {
       }
     } catch (error) {
       // Manejar errores
-      console.error('Error al realizar el login:', error);
+      console.log('Error al realizar el login:', error);
       setErrorMessage(error.response?.data?.message || 'Error al realizar el login');
     }
   };
@@ -76,7 +76,7 @@ const LoginScreen = ({ navigation }) => {
           <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Signup')}>
             <Text style={styles.linkText}>Don't have an account? Sign Up</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('VSAT App')}>
+          <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Welcome')}>
             <Text style={styles.linkText}>Back to Welcome</Text>
           </TouchableOpacity>
         </View>
@@ -149,8 +149,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   errorText: {
-    color: 'red',
+    color: 'white',
+    backgroundColor: 'red',
     marginTop: 10,
+    padding: 4,
+    borderRadius: 4
   },
 });
 
