@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, FlatList, RefreshControl, Image } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import IP from '../../IP.js';
@@ -35,7 +35,11 @@ const ViewSensorsScreen = () => {
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       <Text style={styles.name}>{item.tipo}</Text>
-      <Text style={styles.details}>Price: {item.precio}</Text>
+      <Text style={styles.details}>Precio: {item.precio}</Text>
+      <Text style={styles.details}>Descripción: {item.descripcion}</Text>
+      {item.imagen && (
+        <Image source={{ uri: `http://${IP}:3000/sensor/imagen/${item.imagen}` }} style={styles.sensorImage} />
+      )}
     </View>
   );
 
@@ -77,6 +81,11 @@ const styles = StyleSheet.create({
   },
   details: {
     fontSize: 16,
+  },
+  sensorImage: {
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
   },
 });
 
