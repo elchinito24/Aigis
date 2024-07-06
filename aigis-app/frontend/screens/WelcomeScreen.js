@@ -1,6 +1,5 @@
 import React from 'react';
 import { Image, ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native';
-import { View, Text, StyleSheet, Image, ImageBackground, Pressable } from 'react-native';
 
 const WelcomeScreen = ({ navigation }) => {
   return (
@@ -92,7 +91,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonPressed: {
-    backgroundColor: '#D32F2F',
+    backgroundColor: '#C62828',
   },
 });
 

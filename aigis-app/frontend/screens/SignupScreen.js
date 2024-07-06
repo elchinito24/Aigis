@@ -85,7 +85,7 @@ const SignupScreen = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity 
         style={styles.backToWelcome} 
-        onPress={() => navigation.navigate('VSAT App')}>
+        onPress={() => navigation.navigate('Welcome')}>
         <Text style={styles.backToWelcomeText}>Back to Welcome</Text>
       </TouchableOpacity>
       {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
