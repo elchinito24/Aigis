@@ -31,6 +31,7 @@ const AdminStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="AdminDrawer" component={AdminDrawer} />
     <Stack.Screen name="AddNewSensor" component={AddNewSensorScreen} />
+    <Stack.Screen name="AdminHomeScreen" component={AdminHomeScreen} />
   </Stack.Navigator>
 );
 
