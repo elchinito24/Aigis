@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, RefreshControl, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View} from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import IP from '../../IP.js';
+import CardList from '../../components/CardList.js';
 
 const ViewSensorsScreen = () => {
   const [data, setData] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
     const url = `http://${IP}:3000/sensor/`;
@@ -25,68 +26,13 @@ const ViewSensorsScreen = () => {
     }, [])
   );
 
-  const onRefresh = () => {
-    setRefreshing(true);
-    fetchData().then(() => {
-      setRefreshing(false);
-    });
-  };
-
-  const renderItem = ({ item }) => (
-    <View style={styles.item}>
-      <Text style={styles.name}>{item.tipo}</Text>
-      <Text style={styles.details}>Precio: {item.precio}</Text>
-      <Text style={styles.details}>Descripción: {item.descripcion}</Text>
-      {item.imagen && (
-        <Image source={{ uri: `http://${IP}:3000/sensor/imagen/${item.imagen}` }} style={styles.sensorImage} />
-      )}
-    </View>
-  );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>View Sensors</Text>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={item => item._id}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      />
+    <View style={{ flex: 1 }}>
+        <CardList sensores={data} fetchSensores={fetchData} loading={loading} />
     </View>
-  );
-};
+);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  item: {
-    padding: 16,
-    marginVertical: 8,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 8,
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  details: {
-    fontSize: 16,
-  },
-  sensorImage: {
-    width: 200,
-    height: 200,
-    alignSelf: 'center',
-  },
-});
+};
 
 export default ViewSensorsScreen;
