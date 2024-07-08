@@ -20,7 +20,9 @@ const usuarioSchema = new Schema({
 // Sensor Schema
 const sensorSchema = new Schema({
   tipo: { type: String },
+  descripcion: {type: String},
   precio: {type: Number},
+  imagen: {type: String},
   ubicacion: { type: String },
   estado: { type: String, enum: ['activo', 'inactivo'] },
   usuario_id: { type: Schema.Types.ObjectId, ref: 'Usuario' },
