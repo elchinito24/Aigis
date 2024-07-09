@@ -20,13 +20,13 @@ const PaquetesScreen = () => {
     {
       title: 'Paquete Intermedio',
       price: '$75.00',
-      info: ['RFID', 'Temperatura', 'Humedad'],
+      info: ['RFID', 'Temperatura', 'Presensia'],
       buttonTitle: 'Seleccionar Paquete',
     },
     {
       title: 'Paquete Avanzado',
       price: '$100.00',
-      info: ['RFID', 'Temperatura', 'Humedad', 'Presión'],
+      info: ['RFID', 'Temperatura', 'Presensia', 'Camara'],
       buttonTitle: 'Seleccionar Paquete',
     },
   ];
