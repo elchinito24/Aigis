@@ -9,20 +9,17 @@ const usuarioSchema = new Schema({
   rol: { type: String, enum: ['usuario', 'administrador'], required: true },
   direccion: { type: String },
   telefono: { type: String },
+  giro: { type: String },
   sensores: [{ type: Schema.Types.ObjectId, ref: 'Sensor' }],
-  membresia: {
-    tipo: { type: String, enum: ['3 meses', '6 meses', '1 año'] },
-    fecha_inicio: { type: Date },
-    fecha_fin: { type: Date }
-  }
+  membresia: { type: Boolean }
 });
 
 // Sensor Schema
 const sensorSchema = new Schema({
   tipo: { type: String },
-  descripcion: {type: String},
-  precio: {type: Number},
-  imagen: {type: String},
+  descripcion: { type: String },
+  precio: { type: Number },
+  imagen: { type: String },
   ubicacion: { type: String },
   estado: { type: String, enum: ['activo', 'inactivo'] },
   usuario_id: { type: Schema.Types.ObjectId, ref: 'Usuario' },

@@ -34,7 +34,9 @@ const LoginScreen = ({ navigation }) => {
         // Redireccionar basado en el rol del usuario
         if (userRole === 'administrador') {
           navigation.navigate('AdminStack');
-        } else if (userRole === 'usuario') {
+        } else if (userRole === 'usuario' && !user.membresia) {
+          navigation.navigate('Paquetes');
+        }else{
           navigation.navigate('UserStack');
         }
       }  else {
