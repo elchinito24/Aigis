@@ -67,6 +67,7 @@ const SignupScreen = ({ navigation }) => {
           { label: 'Medicine', value: 'Medicine' },
           { label: 'House', value: 'House' },
           { label: 'Market', value: 'Market' },
+          { label: 'Technology', value: 'Technology' },
         ]}
         style={pickerSelectStyles}
         placeholder={{ label: 'Select a type of company', value: null }}
