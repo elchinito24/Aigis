@@ -1,40 +1,41 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
 import axios from 'axios';
+import RNPickerSelect from 'react-native-picker-select';
 import IP from '../IP';
 
 const SignupScreen = ({ navigation }) => {
-  const [nombre, setNombre] = useState('')
+  const [nombre, setNombre] = useState('');
   const [correo, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
   const [direccion, setDireccion] = useState('');
   const [telefono, setTelefono] = useState('');
+  const [giro, setGiro] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSignup = async () => {
-
-    const data = {nombre,correo,contrasena,direccion,telefono, rol: 'usuario'}
+    const data = { nombre, correo, contrasena, direccion, telefono, giro, rol: 'usuario', membresia: false };
 
     try {
-      const url = `http://${IP}:3000/usuario/signup`
-      const response = await axios.post(url, data)
-      if(response.status == 200){
-        Alert.alert('Signup', 'Registro completado')
+      const url = `http://${IP}:3000/usuario/signup`;
+      const response = await axios.post(url, data);
+      if (response.status === 200) {
+        Alert.alert('Signup', 'Registro completado');
         navigation.navigate('Welcome');
       }
     } catch (error) {
-      console.log('Error en try catch: ',error)
-      setErrorMessage(error.response?.data?.message || "Algo salio mal con tu registro")
+      console.log('Error en try catch: ', error);
+      setErrorMessage(error.response?.data?.message || "Algo salió mal con tu registro");
     }
 
-    console.log(data)
+    console.log(data);
+  };
 
-  }  
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Sign Up</Text>
-      <Text style={styles.nameField}>Name</Text>
-      <TextInput 
+      <Text style={styles.nameField}>Company</Text>
+      <TextInput
         style={styles.input}
         placeholderTextColor="#FFF"
         autoCapitalize='none'
@@ -42,7 +43,7 @@ const SignupScreen = ({ navigation }) => {
         onChangeText={setNombre}
       />
       <Text style={styles.nameField}>Address</Text>
-      <TextInput 
+      <TextInput
         style={styles.input}
         placeholderTextColor="#FFF"
         autoCapitalize='none'
@@ -50,13 +51,25 @@ const SignupScreen = ({ navigation }) => {
         onChangeText={setDireccion}
       />
       <Text style={styles.nameField}>Phone Number</Text>
-      <TextInput 
+      <TextInput
         style={styles.input}
         placeholderTextColor="#FFF"
         autoCapitalize='none'
         keyboardType='numeric'
         value={telefono}
         onChangeText={setTelefono}
+      />
+      <Text style={styles.nameField}>Type of Company</Text>
+      <RNPickerSelect
+        onValueChange={(value) => setGiro(value)}
+        items={[
+          { label: 'Industry', value: 'Industry' },
+          { label: 'Medicine', value: 'Medicine' },
+          { label: 'House', value: 'House' },
+          { label: 'Market', value: 'Market' },
+        ]}
+        style={pickerSelectStyles}
+        placeholder={{ label: 'Select a type of company', value: null }}
       />
       <Text style={styles.nameField}>Email</Text>
       <TextInput
@@ -78,30 +91,30 @@ const SignupScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
-      <TouchableOpacity 
-        style={styles.loginRedirect} 
+      <TouchableOpacity
+        style={styles.loginRedirect}
         onPress={() => navigation.navigate('Login')}>
         <Text style={styles.loginText}>Already have an account? Login</Text>
       </TouchableOpacity>
       <TouchableOpacity 
-        style={styles.backToWelcome} 
+        style={styles.backToWelcome}
         onPress={() => navigation.navigate('Welcome')}>
         <Text style={styles.backToWelcomeText}>Back to Welcome</Text>
       </TouchableOpacity>
       {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#424242',
     padding: 20,
   },
-  nameField:{
+  nameField: {
     color: '#FFF',
     left: '3%',
     alignSelf: 'flex-start',
@@ -116,7 +129,6 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 15,
     color: '#FFF',
-    borderColor: '#ccc',
     borderColor: '#E53935',
     borderWidth: 2,
     borderRadius: 5,
@@ -155,7 +167,36 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     marginTop: 10,
     padding: 4,
-    borderRadius: 4
+    borderRadius: 4,
+  },
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 2,
+    borderColor: '#E53935',
+    borderRadius: 5,
+    color: '#FFF',
+    backgroundColor: '#212121',
+    paddingRight: 30,
+    marginBottom: 20,
+    width: '100%',
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    borderWidth: 2,
+    borderColor: '#E53935',
+    borderRadius: 5,
+    color: '#FFF',
+    backgroundColor: '#212121',
+    paddingRight: 30,
+    marginBottom: 20,
+    width: '100%',
   },
 });
 

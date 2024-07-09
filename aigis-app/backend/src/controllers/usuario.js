@@ -15,7 +15,7 @@ const signup = async (req, res) => {
         let params = req.body;
 
         // Comprobar que me llegaron bien
-        if (!params.nombre || !params.correo || !params.contrasena || !params.rol || !params.direccion || !params.telefono) {
+        if (!params.nombre || !params.correo || !params.contrasena || !params.rol || !params.direccion || !params.telefono || !params.giro) {
             return res.status(400).json({
                 status: "error",
                 message: "Faltan datos por enviar"
