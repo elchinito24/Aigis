@@ -33,7 +33,7 @@ return (
         style={styles.input}
         placeholder="Nombre en la tarjeta"
         value={cardTitular}
-        onChangeText={setCar}
+        onChangeText={setCardTitular}
         />
     </View>
     <View style={styles.inputContainer}>

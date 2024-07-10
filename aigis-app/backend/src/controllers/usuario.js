@@ -78,14 +78,6 @@ const login = async (req, res) => {
             return res.status(401).json({ status: "error", message: "Contraseña incorrecta" });
         }
 
-        const { _id } = user;
-
-        // Convertir el ObjectId a una cadena, si es necesario
-        const userIdString = _id.toString();
-        
-        console.log(userIdString);
-        
-        req.userId = userIdString;
         // Devolver respuesta exitosa
         return res.status(200).json({ status: "success", message: "Acción de login", user});
 

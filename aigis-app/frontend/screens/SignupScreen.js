@@ -66,7 +66,7 @@ const SignupScreen = ({ navigation }) => {
           { label: 'Industrial', value: 'Industrial' },
           { label: 'Medicina', value: 'Medicina' },
           { label: 'Almacenes', value: 'Almacenes' },
-          { label: 'Technología', value: 'Technología' },
+          { label: 'Techología', value: 'Tecnología' },
         ]}
         style={pickerSelectStyles}
         placeholder={{ label: 'Seleccione el tipo de empresa', value: null }}
