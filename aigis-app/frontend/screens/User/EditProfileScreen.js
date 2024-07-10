@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const EditProfileScreen = () => {
   const [name, setName] = useState('John Doe');
   const [email, setEmail] = useState('john.doe@example.com');
 
-  const handleSave = () => {
+  const handleSave = async () => {
     // Lógica para guardar cambios
+    // Obtener el id y mandarlo por consola
+    const userId = await AsyncStorage.getItem('userId')
+    console.log('ESTE ES UNA PRUBEA DE ASYNCSTORAGE EN OTRA PANTALLA: ', userId)
   };
 
   return (

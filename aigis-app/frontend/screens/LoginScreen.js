@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import axios from 'axios';
 import IP from '../IP';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -29,6 +30,14 @@ const LoginScreen = ({ navigation }) => {
         // Verifica el rol del usuario
         const user = response.data.user;
         const userRole = user.rol;
+
+        // Guardar el id del usuario en asyncStorage
+        await AsyncStorage.setItem('userId', user._id)
+
+        // Obtener el id y mandarlo por consola
+        const userId = await AsyncStorage.getItem('userId')
+        console.log('ESTE ES UNA PRUBEA DE ASYNCSTORAGE: ',userId)
+
         Alert.alert('Welcome', `${user.nombre}`);
 
         // Redireccionar basado en el rol del usuario
