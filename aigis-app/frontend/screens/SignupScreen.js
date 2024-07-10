@@ -33,8 +33,8 @@ const SignupScreen = ({ navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
-      <Text style={styles.nameField}>Company</Text>
+      <Text style={styles.title}>Registrate</Text>
+      <Text style={styles.nameField}>Nombre de la empresa</Text>
       <TextInput
         style={styles.input}
         placeholderTextColor="#FFF"
@@ -42,7 +42,7 @@ const SignupScreen = ({ navigation }) => {
         value={nombre}
         onChangeText={setNombre}
       />
-      <Text style={styles.nameField}>Address</Text>
+      <Text style={styles.nameField}>Dirección</Text>
       <TextInput
         style={styles.input}
         placeholderTextColor="#FFF"
@@ -50,7 +50,7 @@ const SignupScreen = ({ navigation }) => {
         value={direccion}
         onChangeText={setDireccion}
       />
-      <Text style={styles.nameField}>Phone Number</Text>
+      <Text style={styles.nameField}>Número de teléfono de contacto</Text>
       <TextInput
         style={styles.input}
         placeholderTextColor="#FFF"
@@ -59,48 +59,47 @@ const SignupScreen = ({ navigation }) => {
         value={telefono}
         onChangeText={setTelefono}
       />
-      <Text style={styles.nameField}>Type of Company</Text>
+      <Text style={styles.nameField}>Tipo de empresa</Text>
       <RNPickerSelect
         onValueChange={(value) => setGiro(value)}
         items={[
-          { label: 'Industry', value: 'Industry' },
-          { label: 'Medicine', value: 'Medicine' },
-          { label: 'House', value: 'House' },
-          { label: 'Market', value: 'Market' },
-          { label: 'Technology', value: 'Technology' },
+          { label: 'Industrial', value: 'Industrial' },
+          { label: 'Medicina', value: 'Medicina' },
+          { label: 'Almacenes', value: 'Almacenes' },
+          { label: 'Technología', value: 'Technología' },
         ]}
         style={pickerSelectStyles}
-        placeholder={{ label: 'Select a type of company', value: null }}
+        placeholder={{ label: 'Seleccione el tipo de empresa', value: null }}
       />
       <Text style={styles.nameField}>Email</Text>
       <TextInput
         style={styles.input}
-        placeholderTextColor="#FFF"
+        placeholderTextColor="#F4F6FC"
         keyboardType="email-address"
         autoCapitalize="none"
         value={correo}
         onChangeText={setCorreo}
       />
-      <Text style={styles.nameField}>Create Password</Text>
+      <Text style={styles.nameField}>Crear contraseña</Text>
       <TextInput
         style={styles.input}
-        placeholderTextColor="#FFF"
+        placeholderTextColor="#F4F6FC"
         secureTextEntry
         value={contrasena}
         onChangeText={setContrasena}
       />
       <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
-        <Text style={styles.buttonText}>Sign Up</Text>
+        <Text style={styles.buttonText}>Registrar</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.loginRedirect}
         onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.loginText}>Already have an account? Login</Text>
+        <Text style={styles.loginText}>¿Ya tienes una cuenta? Iniciar sesión</Text>
       </TouchableOpacity>
       <TouchableOpacity 
         style={styles.backToWelcome}
         onPress={() => navigation.navigate('Welcome')}>
-        <Text style={styles.backToWelcomeText}>Back to Welcome</Text>
+        <Text style={styles.backToWelcomeText}>Volver al menú</Text>
       </TouchableOpacity>
       {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
     </ScrollView>
@@ -116,20 +115,20 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   nameField: {
-    color: '#FFF',
+    color: '#F4F6FC',
     left: '3%',
     alignSelf: 'flex-start',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#FFF',
+    color: '#F4F6FC',
     marginBottom: 20,
   },
   input: {
     width: '100%',
     padding: 15,
-    color: '#FFF',
+    color: '#F4F6FC',
     borderColor: '#E53935',
     borderWidth: 2,
     borderRadius: 5,

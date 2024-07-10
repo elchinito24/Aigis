@@ -1,81 +1,84 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
-import { PricingCard, Dialog, CheckBox } from '@rneui/themed';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
 
 const PaquetesScreen = () => {
-  const [visible5, setVisible5] = useState(false);
-  const [checked, setChecked] = useState(0);
-
-  const toggleDialog5 = () => {
-    setVisible5(!visible5);
-  };
+  const navigation = useNavigation();
+  const [selectedPackage, setSelectedPackage] = useState(null);
 
   const paquetes = [
     {
       title: 'Paquete Básico',
+      description: 'Incluye funcionalidades esenciales como tarjetas de acceso y monitoreo de la temperatura y humedad.',
       price: '$50.00',
-      info: ['RFID', 'Temperatura'],
-      buttonTitle: 'Seleccionar Paquete',
+      info: ['RFID', 'Temperatura y Humedad'],
     },
     {
       title: 'Paquete Intermedio',
+      description: 'Un paquete con más seguridad, añade detección de humo.',
       price: '$75.00',
-      info: ['RFID', 'Temperatura', 'Presensia'],
-      buttonTitle: 'Seleccionar Paquete',
+      info: ['RFID', 'Temperatura y Humedad', 'Humo'],
     },
     {
       title: 'Paquete Avanzado',
+      description: 'Ofrece nuevo sistema de seguridad con el paquete nuevo de cámara y detector de presencia. Ademas de las funcionaldiades de los anteriores paquetes.',
       price: '$100.00',
-      info: ['RFID', 'Temperatura', 'Presensia', 'Camara'],
-      buttonTitle: 'Seleccionar Paquete',
+      info: ['RFID', 'Temperatura y Humedad', 'Humo', 'Presencia', 'Cámara'],
     },
   ];
 
+  const handleSeleccionarPaquete = (index) => {
+    setSelectedPackage(index);
+  };
+
+  const handleConfirmarPaquete = () => {
+    if (selectedPackage !== null) {
+      console.log('Paquete seleccionado:', paquetes[selectedPackage].title);
+      navigation.navigate('Pay');
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
-      {paquetes.map((paquete, index) => (
-        <View key={index} style={styles.cardContainer}>
-          <Dialog
-            isVisible={visible5}
-            onBackdropPress={toggleDialog5}
-          >
-            <Dialog.Title title="Select Membership Duration" />
-            {['3 Months', '6 Months', '1 Year'].map((option, i) => (
-              <CheckBox
-                key={i}
-                title={option}
-                containerStyle={{ backgroundColor: 'white', borderWidth: 0 }}
-                checkedIcon="dot-circle-o"
-                uncheckedIcon="circle-o"
-                checked={checked === i + 1}
-                onPress={() => setChecked(i + 1)}
-              />
-            ))}
-
-            <Dialog.Actions>
-              <Dialog.Button
-                title="CONFIRM"
-                onPress={() => {
-                  console.log(`Option ${checked} was selected!`);
-                  toggleDialog5();
-                }}
-              />
-              <Dialog.Button title="CANCEL" onPress={toggleDialog5} />
-            </Dialog.Actions>
-          </Dialog>
-          <PricingCard
-            color="#ff0000" // Red color for the card border
-            title={paquete.title}
-            titleStyle={styles.title}
-            price={paquete.price}
-            priceStyle={styles.price}
-            info={paquete.info}
-            infoStyle={styles.info}
-            button={{ title: paquete.buttonTitle, icon: 'flight-takeoff', buttonStyle: styles.button, onPress: toggleDialog5 }}
-            containerStyle={styles.pricingCard}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.navigate('Membership')} style={styles.iconContainer}>
+          <Icon
+            name='arrow-back-ios'
+            type='MaterialIcons'
+            color='#E53935'
+            size={24}
           />
-        </View>
+        </TouchableOpacity>
+        <Text style={styles.tituloMem}>Selecciona un paquete</Text>
+      </View>
+
+      {paquetes.map((paquete, index) => (
+        <TouchableOpacity
+          key={index}
+          style={[styles.cardContainer, selectedPackage === index && styles.selectedCard]}
+          onPress={() => handleSeleccionarPaquete(index)}
+        >
+          <View>
+            <Text style={styles.title}>{paquete.title}</Text>
+            <Text style={styles.desc}>{paquete.description}</Text>
+            <Text style={styles.contText}>Contiene:</Text>
+            {paquete.info.map((item, idx) => (
+              <Text key={idx} style={styles.infoItem}>
+                - {item}
+              </Text>
+            ))}
+            <View style={styles.priceContainer}>
+              <Text style={[styles.textPrice, selectedPackage === index && { color: '#F4F6FC' }]}>Costo:</Text>
+              <Text style={[styles.price, selectedPackage === index && { color: '#F4F6FC' }]}>{paquete.price}</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
       ))}
+
+      <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmarPaquete}>
+        <Text style={styles.confirmButtonText}>CONFIRMAR PAQUETE</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -84,25 +87,93 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: '#333', // Dark grey background
+    backgroundColor: '#424242',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 48,
+    marginBottom: 20,
+  },
+  tituloMem: {
+    color: '#F4F6FC',
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    flex: 1,
+    marginRight: 30,
+  },
+  iconContainer: {
+    paddingHorizontal: 10,
   },
   cardContainer: {
+    backgroundColor: '#212121',
+    borderColor: '#E53935',
+    borderWidth: 1,
+    borderRadius: 20,
+    padding: 20,
     marginVertical: 10,
   },
-  pricingCard: {
-    backgroundColor: '#444', // Slightly lighter grey for the card background
+  selectedCard: {
+    backgroundColor: '#E53935',
+    color: '#FFF',
+    borderColor: '#FFF',
+    borderWidth: 1,
+    borderRadius: 20,
   },
   title: {
-    color: '#fff', // White text for title
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#F4F6FC',
+    textAlign: 'center',
+  },
+  desc: {
+    fontSize: 16,
+    color: '#F4F6FC',
+    marginTop: 5,
+    textAlign: 'center',
+  },
+  priceContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  textPrice: {
+    fontSize: 16,
+    color: '#F4F6FC',
   },
   price: {
-    color: '#ff0000', // Red text for price
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#E53935',
+    textAlign: 'right',
   },
-  info: {
-    color: '#ddd', // Light grey text for info
+  contText: {
+    fontSize: 16,
+    color: '#F4F6FC',
+    marginTop: 10,
   },
-  button: {
-    backgroundColor: '#ff0000', // Red background for the button
+  infoItem: {
+    fontSize: 16,
+    color: '#F4F6FC',
+    marginLeft: 15,
+  },
+  confirmButton: {
+    backgroundColor: '#E53935',
+    paddingVertical: 12,
+    borderRadius: 5,
+    alignSelf: 'center',
+    marginTop: 20,
+    marginBottom: 40,
+    width: '80%',
+  },
+  confirmButtonText: {
+    color: '#FFF',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 

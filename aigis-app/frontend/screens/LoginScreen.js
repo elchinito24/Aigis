@@ -53,8 +53,8 @@ const LoginScreen = ({ navigation }) => {
 
   return (
       <View style={styles.overlay}>
-        <Text style={styles.title}>Login</Text>
-        <Text style={styles.nameField}>Email</Text>
+        <Text style={styles.title}>Inicio de Sesión</Text>
+        <Text style={styles.nameField}>Correo Electrónico</Text>
         <TextInput
           style={styles.input}
           placeholderTextColor="#aaa"
@@ -63,7 +63,7 @@ const LoginScreen = ({ navigation }) => {
           value={email}
           onChangeText={setEmail}
         />
-        <Text style={styles.nameField}>Password</Text>
+        <Text style={styles.nameField}>Contraseña</Text>
         <TextInput
           style={styles.input}
           placeholderTextColor="#aaa"
@@ -72,14 +72,14 @@ const LoginScreen = ({ navigation }) => {
           onChangeText={setPassword}
         />
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>Iniciar Sesión</Text>
         </TouchableOpacity>
         <View style={styles.linksContainer}>
           <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Signup')}>
-            <Text style={styles.linkText}>Don't have an account? Sign Up</Text>
+            <Text style={styles.linkText}>¿No tienes una cuenta? Registrate ahora</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Welcome')}>
-            <Text style={styles.linkText}>Back to Welcome</Text>
+            <Text style={styles.linkText}>Volver al menú</Text>
           </TouchableOpacity>
         </View>
         {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     padding: 20
   },
   nameField:{
-    color: '#FFF',
+    color: '#F4F6FC',
     left: '3%',
     alignSelf: 'flex-start',
   },
@@ -110,14 +110,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#FFF',
+    color: '#F4F6FC',
     marginBottom: 20,
     
   },
   input: {
     width: '100%',
     padding: 15,
-    color: '#FFF',
+    color: '#F4F6FC',
     borderColor: '#E53935',
     borderWidth: 2,
     borderRadius: 5,
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonText: {
-    color: '#fff',
+    color: '#F4F6FC',
     fontSize: 16,
   },
   linksContainer: {

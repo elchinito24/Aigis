@@ -4,33 +4,35 @@ import IP from '../../IP';
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 
-const ManageSensorsScreen = ({ navigation }) => {
-  const [data, setData] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
+const ManageSensorsScreen = ({navigation}) => {
+
+  const [data, setData] = useState([])
+  const [refreshing, setRefreshing] = useState(false)
 
   const fetchData = async () => {
-    const url = `http://${IP}:3000/sensor`;
+    const url = `http://${IP}:3000/sensor`
     try {
-      const response = await axios.get(url);
-      setData(response.data.sensores);
+      const response = await axios.get(url)
+      console.log(response.data.sensores)
+      setData(response.data.sensores)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   useFocusEffect(
     React.useCallback(() => {
-      fetchData();
-    }, [])
-  );
+      fetchData()
+    },[])
+  )
 
   const onRefresh = () => {
-    setRefreshing(true);
+    setRefreshing(true)
     fetchData().then(() => {
-      setRefreshing(false);
-    });
-  };
-
+      setRefreshing(false)
+    })
+  }
+  
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       <Text style={styles.name}>{item.tipo}</Text>

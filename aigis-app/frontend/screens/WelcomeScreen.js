@@ -13,7 +13,7 @@ const WelcomeScreen = ({ navigation }) => {
           source={require('../assets/LOGO-Completo.png')} 
           style={styles.image}
         />
-        <Text style={styles.title}>Welcome!</Text>
+        <Text style={styles.title}>Bienvenido!</Text>
         <View style={styles.buttonContainer}>
           <Pressable 
             style={({ pressed }) => [
@@ -23,7 +23,7 @@ const WelcomeScreen = ({ navigation }) => {
             ]} 
             onPress={() => navigation.navigate('Login')}
           >
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Iniciar Sesión</Text>
           </Pressable>
           <Pressable 
             style={({ pressed }) => [
@@ -33,7 +33,7 @@ const WelcomeScreen = ({ navigation }) => {
             ]} 
             onPress={() => navigation.navigate('Signup')}
           >
-            <Text style={styles.buttonText}>Sign Up</Text>
+            <Text style={styles.buttonText}>Registrarse</Text>
           </Pressable>
         </View>
       </View>
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#FFF',
+    color: '#F4F6FC',
     marginBottom: '5%', 
     fontFamily: 'Roboto',
     textAlign: 'center',
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   buttonText: {
-    color: '#FFF',
+    color: '#F4F6FC',
     fontSize: 18,
   },
   loginButton: {
