@@ -1,1 +1,1 @@
-export default IP = '172.18.6.143'
+export default IP = '172.20.10.6'

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import axios from 'axios';
 import IP from '../IP';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -11,7 +12,7 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
     try {
       // URL de tu API de login
-      const url = `http://${IP}:3000/usuario/login`;
+      const url = 'http://${IP}:3000/usuario/login';
 
       // Datos de las credenciales de usuario
       const data = {
@@ -29,7 +30,15 @@ const LoginScreen = ({ navigation }) => {
         // Verifica el rol del usuario
         const user = response.data.user;
         const userRole = user.rol;
-        Alert.alert('Welcome', `${user.nombre}`);
+
+        // Guardar el id del usuario en asyncStorage
+        await AsyncStorage.setItem('userId', user._id)
+
+        // Obtener el id y mandarlo por consola
+        const userId = await AsyncStorage.getItem('userId')
+        console.log('ESTE ES UNA PRUBEA DE ASYNCSTORAGE: ',userId)
+
+        Alert.alert('Welcome', '${user.nombre}');
 
         // Redireccionar basado en el rol del usuario
         if (userRole === 'administrador') {
@@ -53,8 +62,8 @@ const LoginScreen = ({ navigation }) => {
 
   return (
       <View style={styles.overlay}>
-        <Text style={styles.title}>Inicio de Sesión</Text>
-        <Text style={styles.nameField}>Correo Electrónico</Text>
+        <Text style={styles.title}>Login</Text>
+        <Text style={styles.nameField}>Email</Text>
         <TextInput
           style={styles.input}
           placeholderTextColor="#aaa"
@@ -63,7 +72,7 @@ const LoginScreen = ({ navigation }) => {
           value={email}
           onChangeText={setEmail}
         />
-        <Text style={styles.nameField}>Contraseña</Text>
+        <Text style={styles.nameField}>Password</Text>
         <TextInput
           style={styles.input}
           placeholderTextColor="#aaa"
@@ -72,14 +81,14 @@ const LoginScreen = ({ navigation }) => {
           onChangeText={setPassword}
         />
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Iniciar Sesión</Text>
+          <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <View style={styles.linksContainer}>
           <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Signup')}>
-            <Text style={styles.linkText}>¿No tienes una cuenta? Registrate ahora</Text>
+            <Text style={styles.linkText}>Don't have an account? Sign Up</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Welcome')}>
-            <Text style={styles.linkText}>Volver al menú</Text>
+            <Text style={styles.linkText}>Back to Welcome</Text>
           </TouchableOpacity>
         </View>
         {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
@@ -95,7 +104,7 @@ const styles = StyleSheet.create({
     padding: 20
   },
   nameField:{
-    color: '#F4F6FC',
+    color: '#FFF',
     left: '3%',
     alignSelf: 'flex-start',
   },
@@ -110,14 +119,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#F4F6FC',
+    color: '#FFF',
     marginBottom: 20,
     
   },
   input: {
     width: '100%',
     padding: 15,
-    color: '#F4F6FC',
+    color: '#FFF',
     borderColor: '#E53935',
     borderWidth: 2,
     borderRadius: 5,
@@ -134,7 +143,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonText: {
-    color: '#F4F6FC',
+    color: '#fff',
     fontSize: 16,
   },
   linksContainer: {
