@@ -27,7 +27,6 @@ const App = () => {
         <Stack.Screen name="Paquetes" component={PaquetesScreen} />
         <Stack.Screen name="Pay" component={PayScreen} />
         <Stack.Screen name="Membership" component={MembershipScreen} />
-
       </Stack.Navigator>
     </NavigationContainer>
   );
