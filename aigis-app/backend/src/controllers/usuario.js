@@ -20,13 +20,6 @@ const login = async (req, res) => {
         if (params.contrasena !== user.contrasena) {
             return res.status(401).json({ status: "error", message: "Contraseña incorrecta" });
         }
-
-        const { _id } = user;
-
-        // Convertir el ObjectId a una cadena, si es necesario
-        const userIdString = _id.toString();
-        
-        console.log(userIdString);
         
         req.userId = userIdString;
         // Devolver respuesta exitosa
