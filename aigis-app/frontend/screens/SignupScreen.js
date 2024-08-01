@@ -13,6 +13,18 @@ const SignupScreen = ({ navigation }) => {
   const [giro, setGiro] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const formatPhoneNumber = (input) => {
+    // Eliminar todos los caracteres que no sean dígitos
+    const cleaned = ('' + input).replace(/\D/g, '');
+    
+    // Aplicar el formato con guion (si tiene 8 dígitos)
+    const formatted = cleaned.length === 8 ?
+      cleaned.replace(/(\d{4})(\d{4})/, '$1-$2') :
+      cleaned;
+    
+    return formatted;
+  };
+
   const handleSignup = async () => {
     const data = { nombre, correo, contrasena, direccion, telefono, giro, rol: 'usuario', membresia: false };
 
@@ -56,8 +68,9 @@ const SignupScreen = ({ navigation }) => {
         placeholderTextColor="#FFF"
         autoCapitalize='none'
         keyboardType='numeric'
-        value={telefono}
-        onChangeText={setTelefono}
+        maxLength={9}
+        value={formatPhoneNumber(telefono)} // Aplicar el formato al valor mostrado
+        onChangeText={(text) => setTelefono(formatPhoneNumber(text))} // Actualizar el estado con el formato
       />
       <Text style={styles.nameField}>Tipo de empresa</Text>
       <RNPickerSelect
@@ -66,7 +79,12 @@ const SignupScreen = ({ navigation }) => {
           { label: 'Industrial', value: 'Industrial' },
           { label: 'Medicina', value: 'Medicina' },
           { label: 'Almacenes', value: 'Almacenes' },
-          { label: 'Techología', value: 'Tecnología' },
+          { label: 'Tecnología', value: 'Tecnología' },
+          { label: 'Financiera', value: 'Financiera' },
+          { label: 'Alimentaria', value: 'Alimentaria'},
+          { label: 'Educacion', value: 'Educacion'},
+          { label: 'Transporte y Logistica', value: 'Transporte y Logistica'},
+          { label: 'Turismo y Hospitalidad', value: 'Turismo y Hospitalidad'},
         ]}
         style={pickerSelectStyles}
         placeholder={{ label: 'Seleccione el tipo de empresa', value: null }}
